@@ -1,66 +1,49 @@
-﻿namespace EmailValidation
+﻿
+
+namespace MobileNumberValidation
 {
-    namespace EmailValidation
+    class UC4
     {
-        class Program
+        static void Main(string[] args)
         {
-            static void Main(string[] args)
+            string mobileNumber;
+
+            do
             {
-                string email;
+                Console.Write("Enter a valid mobile number: ");
+                mobileNumber = Console.ReadLine();
+            } while (!IsValidMobileNumber(mobileNumber));
 
-                do
-                {
-                    Console.Write("Enter a valid email: ");
-                    email = Console.ReadLine();
-                } while (!IsValidEmail(email));
+            Console.WriteLine("Valid mobile number entered: " + mobileNumber);
+        }
 
-                Console.WriteLine("Valid email entered: " + email);
+        static bool IsValidMobileNumber(string mobileNumber)
+        {
+            // Remove any spaces and non-numeric characters
+            string cleanNumber = new string(mobileNumber.Where(char.IsDigit).ToArray());
+
+            // Check if the cleaned number has exactly 10 digits
+            if (cleanNumber.Length != 10)
+            {
+                Console.WriteLine("Invalid mobile number format.");
+                return false;
             }
 
-            static bool IsValidEmail(string email)
+            // Check if the country code is 91
+            string countryCode = cleanNumber.Substring(0, 2);
+            if (countryCode != "91")
             {
-                // Check if "@" and "." are present in the email
-                int atIndex = email.IndexOf('@');
-                int dotIndex = email.LastIndexOf('.');
-
-                if (atIndex == -1 || dotIndex == -1 || dotIndex < atIndex)
-                {
-                    Console.WriteLine("Invalid email format.");
-                    return false;
-                }
-
-                // Extract the parts of the email
-                string[] parts = email.Split('@');
-                if (parts.Length != 2)
-                {
-                    Console.WriteLine("Invalid email format.");
-                    return false;
-                }
-
-                string beforeAt = parts[0];
-                string afterAt = parts[1];
-
-                string[] domainParts = afterAt.Split('.');
-                if (domainParts.Length < 2 || domainParts.Length > 3)
-                {
-                    Console.WriteLine("Invalid email format.");
-                    return false;
-                }
-
-                string part1 = domainParts[0];
-                string part2 = domainParts[1];
-                string part3 = domainParts.Length > 2 ? domainParts[2] : "";
-
-                // Check parts
-                if (string.IsNullOrWhiteSpace(beforeAt) || string.IsNullOrWhiteSpace(part1) || string.IsNullOrWhiteSpace(part2))
-                {
-                    Console.WriteLine("Invalid email format.");
-                    return false;
-                }
-
-                return true;
+                Console.WriteLine("Invalid country code.");
+                return false;
             }
+
+            Console.WriteLine("Country code: " + countryCode);
+
+            // Extract and display the mobile number part
+            string mobilePart = cleanNumber.Substring(2);
+            Console.WriteLine("Mobile number: " + mobilePart);
+
+            return true;
         }
     }
 }
-
