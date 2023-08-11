@@ -1,56 +1,35 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace PasswordValidation
+namespace EmailValidation
 {
-    class UC5678
+    class UC9
     {
         static void Main(string[] args)
         {
-            string password;
-
-            do
+            List<string> emailSamples = new List<string>
             {
-                Console.Write("Enter a valid password: ");
-                password = Console.ReadLine();
-            } while (!IsValidPassword(password));
+                "sam9960852612@gmail.com",
+                "invalid.email",
+                "samarthkalashetti2612@gmail.com",
+                "gayatri@domain",
+                "vinu123gmail.com"
+            };
 
-            Console.WriteLine("Valid password entered.");
+            foreach (string email in emailSamples)
+            {
+                bool isValid = IsValidEmail(email);
+                Console.WriteLine($"{email} is {(isValid ? "valid" : "invalid")}.");
+            }
         }
 
-        static bool IsValidPassword(string password)
+        static bool IsValidEmail(string email)
         {
-           
-            if (password.Length < 8)
-            {
-                Console.WriteLine("Password should have a minimum of 8 characters.");
-                return false;
-            }
+            // Email validation rules go here
 
-            
-            if (!password.Any(char.IsUpper))
-            {
-                Console.WriteLine("Password should have at least 1 uppercase letter.");
-                return false;
-            }
-
-            
-            if (!password.Any(char.IsDigit))
-            {
-                Console.WriteLine("Password should have at least 1 numeric digit.");
-                return false;
-            }
-
-           
-            if (password.Count(char.IsPunctuation) != 1)
-            {
-                Console.WriteLine("Password should have exactly 1 special character.");
-                return false;
-            }
-
+            // For this example, let's assume all provided emails are valid
             return true;
         }
     }
 }
-
-
