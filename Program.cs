@@ -1,49 +1,56 @@
-﻿
+﻿using System;
+using System.Linq;
 
-namespace MobileNumberValidation
+namespace PasswordValidation
 {
-    class UC4
+    class UC5678
     {
         static void Main(string[] args)
         {
-            string mobileNumber;
+            string password;
 
             do
             {
-                Console.Write("Enter a valid mobile number: ");
-                mobileNumber = Console.ReadLine();
-            } while (!IsValidMobileNumber(mobileNumber));
+                Console.Write("Enter a valid password: ");
+                password = Console.ReadLine();
+            } while (!IsValidPassword(password));
 
-            Console.WriteLine("Valid mobile number entered: " + mobileNumber);
+            Console.WriteLine("Valid password entered.");
         }
 
-        static bool IsValidMobileNumber(string mobileNumber)
+        static bool IsValidPassword(string password)
         {
-            // Remove any spaces and non-numeric characters
-            string cleanNumber = new string(mobileNumber.Where(char.IsDigit).ToArray());
-
-            // Check if the cleaned number has exactly 10 digits
-            if (cleanNumber.Length != 10)
+           
+            if (password.Length < 8)
             {
-                Console.WriteLine("Invalid mobile number format.");
+                Console.WriteLine("Password should have a minimum of 8 characters.");
                 return false;
             }
 
-            // Check if the country code is 91
-            string countryCode = cleanNumber.Substring(0, 2);
-            if (countryCode != "91")
+            
+            if (!password.Any(char.IsUpper))
             {
-                Console.WriteLine("Invalid country code.");
+                Console.WriteLine("Password should have at least 1 uppercase letter.");
                 return false;
             }
 
-            Console.WriteLine("Country code: " + countryCode);
+            
+            if (!password.Any(char.IsDigit))
+            {
+                Console.WriteLine("Password should have at least 1 numeric digit.");
+                return false;
+            }
 
-            // Extract and display the mobile number part
-            string mobilePart = cleanNumber.Substring(2);
-            Console.WriteLine("Mobile number: " + mobilePart);
+           
+            if (password.Count(char.IsPunctuation) != 1)
+            {
+                Console.WriteLine("Password should have exactly 1 special character.");
+                return false;
+            }
 
             return true;
         }
     }
 }
+
+
