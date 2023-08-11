@@ -1,46 +1,39 @@
-﻿namespace UserRegistration1
+﻿namespace LastNameValidation
 {
-    internal class UserResgistrationUC1
+    class Program
     {
-        class UC1
+        static void Main(string[] args)
         {
-            public static bool IsValidFirstName(string firstName)
+            string lastName;
+
+            do
             {
-                if (string.IsNullOrEmpty(firstName) || firstName.Length < 3)
-                {
-                    return false;
-                }
+                Console.Write("Enter a valid last name: ");
+                lastName = Console.ReadLine();
+            } while (!IsValidLastName(lastName));
 
-                if (!char.IsUpper(firstName[0]))
-                {
-                    return false;
-                }
+            Console.WriteLine("Valid last name entered: " + lastName);
+        }
 
-                for (int i = 1; i < firstName.Length; i++)
-                {
-                    if (!char.IsLetter(firstName[i]))
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
+        static bool IsValidLastName(string lastName)
+        {
+            if (string.IsNullOrWhiteSpace(lastName) || lastName.Length < 3)
+            {
+                Console.WriteLine("Last name should have a minimum of 3 characters.");
+                return false;
             }
 
-            public static void Main(string[] args)
+            if (!char.IsUpper(lastName[0]))
             {
-                Console.Write("Enter your first name: ");
-                string firstName = Console.ReadLine();
-
-                if (IsValidFirstName(firstName))
-                {
-                    Console.WriteLine("Valid first name.");
-                }
-                else
-                {
-                    Console.WriteLine("Invalid first name. Make sure it starts with a capital letter and has at least 3 characters.");
-                }
+                Console.WriteLine("Last name should start with a capital letter.");
+                return false;
             }
+
+            return true;
         }
     }
 }
+
+
+
+
