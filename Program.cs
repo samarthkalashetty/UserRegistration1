@@ -1,35 +1,66 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace EmailValidation
+namespace UserRegistration
 {
-    class UC9
+    class Program
     {
         static void Main(string[] args)
         {
-            List<string> emailSamples = new List<string>
-            {
-                "sam9960852612@gmail.com",
-                "invalid.email",
-                "samarthkalashetti2612@gmail.com",
-                "gayatri@domain",
-                "vinu123gmail.com"
-            };
+            Console.WriteLine("User Registration Form");
 
-            foreach (string email in emailSamples)
+            Console.Write("Enter First Name: ");
+            string firstName = Console.ReadLine();
+
+            Console.Write("Enter Last Name: ");
+            string lastName = Console.ReadLine();
+
+            Console.Write("Enter Email: ");
+            string email = Console.ReadLine();
+
+            Console.Write("Enter Mobile Number: ");
+            string mobile = Console.ReadLine();
+
+            Console.Write("Enter Password: ");
+            string password = Console.ReadLine();
+
+            if (UserValidator.IsValidFirstName(firstName) &&
+                UserValidator.IsValidLastName(lastName) &&
+                UserValidator.IsValidEmail(email) &&
+                UserValidator.IsValidMobileNumber(mobile) &&
+                UserValidator.IsValidPassword(password))
             {
-                bool isValid = IsValidEmail(email);
-                Console.WriteLine($"{email} is {(isValid ? "valid" : "invalid")}.");
+                Console.WriteLine("Registration Successful!");
+            }
+            else
+            {
+                Console.WriteLine("Registration Failed. Please check your details.");
             }
         }
+    }
 
-        static bool IsValidEmail(string email)
+    public static class UserValidator
+    {
+        public static Func<string, bool> IsValidFirstName = firstName =>
+            !string.IsNullOrWhiteSpace(firstName) && firstName.Length >= 3;
+
+        public static Func<string, bool> IsValidLastName = lastName =>
+            !string.IsNullOrWhiteSpace(lastName) && lastName.Length >= 3;
+
+        public static Func<string, bool> IsValidEmail = email =>
         {
-            // Email validation rules go here
-
-            // For this example, let's assume all provided emails are valid
+            
             return true;
-        }
+        };
+
+        public static Func<string, bool> IsValidMobileNumber = mobile =>
+        {
+            return true;
+        };
+
+        public static Func<string, bool> IsValidPassword = password =>
+        {
+            
+            return true;
+        };
     }
 }
