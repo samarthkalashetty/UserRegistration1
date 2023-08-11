@@ -1,39 +1,66 @@
-﻿namespace LastNameValidation
+﻿namespace EmailValidation
 {
-    class Program
+    namespace EmailValidation
     {
-        static void Main(string[] args)
+        class Program
         {
-            string lastName;
-
-            do
+            static void Main(string[] args)
             {
-                Console.Write("Enter a valid last name: ");
-                lastName = Console.ReadLine();
-            } while (!IsValidLastName(lastName));
+                string email;
 
-            Console.WriteLine("Valid last name entered: " + lastName);
-        }
+                do
+                {
+                    Console.Write("Enter a valid email: ");
+                    email = Console.ReadLine();
+                } while (!IsValidEmail(email));
 
-        static bool IsValidLastName(string lastName)
-        {
-            if (string.IsNullOrWhiteSpace(lastName) || lastName.Length < 3)
-            {
-                Console.WriteLine("Last name should have a minimum of 3 characters.");
-                return false;
+                Console.WriteLine("Valid email entered: " + email);
             }
 
-            if (!char.IsUpper(lastName[0]))
+            static bool IsValidEmail(string email)
             {
-                Console.WriteLine("Last name should start with a capital letter.");
-                return false;
-            }
+                // Check if "@" and "." are present in the email
+                int atIndex = email.IndexOf('@');
+                int dotIndex = email.LastIndexOf('.');
 
-            return true;
+                if (atIndex == -1 || dotIndex == -1 || dotIndex < atIndex)
+                {
+                    Console.WriteLine("Invalid email format.");
+                    return false;
+                }
+
+                // Extract the parts of the email
+                string[] parts = email.Split('@');
+                if (parts.Length != 2)
+                {
+                    Console.WriteLine("Invalid email format.");
+                    return false;
+                }
+
+                string beforeAt = parts[0];
+                string afterAt = parts[1];
+
+                string[] domainParts = afterAt.Split('.');
+                if (domainParts.Length < 2 || domainParts.Length > 3)
+                {
+                    Console.WriteLine("Invalid email format.");
+                    return false;
+                }
+
+                string part1 = domainParts[0];
+                string part2 = domainParts[1];
+                string part3 = domainParts.Length > 2 ? domainParts[2] : "";
+
+                // Check parts
+                if (string.IsNullOrWhiteSpace(beforeAt) || string.IsNullOrWhiteSpace(part1) || string.IsNullOrWhiteSpace(part2))
+                {
+                    Console.WriteLine("Invalid email format.");
+                    return false;
+                }
+
+                return true;
+            }
         }
     }
 }
-
-
-
 
